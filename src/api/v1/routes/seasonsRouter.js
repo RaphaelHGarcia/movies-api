@@ -2,6 +2,7 @@
 
 import express from 'express';
 import seasonsController from '../controllers/seasonsController'
+import securityHelper from '../helpers/security';
 
 const router = express.Router();
 
@@ -60,6 +61,11 @@ router.get('/details/:id', seasonsController.getSeasonById);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: air_date
  *         description: Air date to serie.
  *         in: formData
@@ -86,7 +92,7 @@ router.get('/details/:id', seasonsController.getSeasonById);
  *       500:
  *         description: Fail create season
  */
-router.post('/create', seasonsController.createSeason);
+router.post('/create', securityHelper.isAuthenticated, seasonsController.createSeason);
 
 /**
  * @swagger
@@ -98,6 +104,11 @@ router.post('/create', seasonsController.createSeason);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: Id to season.
  *         required: true
@@ -125,7 +136,7 @@ router.post('/create', seasonsController.createSeason);
  *       500:
  *         description: Fail create season
  */
-router.put('/update/:id', seasonsController.updateSeason);
+router.put('/update/:id', securityHelper.isAuthenticated, seasonsController.updateSeason);
 
 /**
  * @swagger
@@ -137,6 +148,11 @@ router.put('/update/:id', seasonsController.updateSeason);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: id to season.
  *         in: path
@@ -148,6 +164,6 @@ router.put('/update/:id', seasonsController.updateSeason);
  *       500:
  *         description: Fail delete season
  */
-router.delete('/delete/:id', seasonsController.deleteSeason);
+router.delete('/delete/:id', securityHelper.isAuthenticated, seasonsController.deleteSeason);
 
 module.exports = router;

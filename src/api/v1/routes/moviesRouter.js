@@ -1,7 +1,8 @@
 'use strict'
 
 import express from 'express';
-import moviesController from '../controllers/moviesController'
+import moviesController from '../controllers/moviesController';
+import securityHelper from '../helpers/security';
 
 const router = express.Router();
 
@@ -62,7 +63,7 @@ const router = express.Router();
  *         description: Internal server Error
  */
 
-router.get('/', moviesController.getAllMovies);
+router.get('/' ,moviesController.getAllMovies);
 
 /**
  * @swagger
@@ -101,6 +102,11 @@ router.get('/details/:id', moviesController.getMovieById);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: original_language
  *         description: Original language to movie.
  *         in: formData
@@ -157,7 +163,7 @@ router.get('/details/:id', moviesController.getMovieById);
  *       500:
  *         description: Fail create movie
  */
-router.post('/create', moviesController.createMovie);
+router.post('/create', securityHelper.isAuthenticated, moviesController.createMovie);
 
 /**
  * @swagger
@@ -169,6 +175,11 @@ router.post('/create', moviesController.createMovie);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: id to movie.
  *         in: formData
@@ -220,7 +231,7 @@ router.post('/create', moviesController.createMovie);
  *       500:
  *         description: Fail update movie
  */
-router.put('/update/:id', moviesController.updateMovie);
+router.put('/update/:id', securityHelper.isAuthenticated, moviesController.updateMovie);
 
 /**
  * @swagger
@@ -237,12 +248,17 @@ router.put('/update/:id', moviesController.updateMovie);
  *         in: formData
  *         required: true
  *         type: integer
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: Delete movie success
  *       500:
  *         description: Fail delete movie
  */
-router.delete('/delete/:id', moviesController.deleteMovie);
+router.delete('/delete/:id', securityHelper.isAuthenticated, moviesController.deleteMovie);
 
 module.exports = router;

@@ -28,6 +28,7 @@ const swaggerOptions = {
     },
   },
   apis: [
+    './src/api/v1/routes/usersRouter.js',
     './src/api/v1/routes/moviesRouter.js',
     './src/api/v1/routes/seriesRouter.js',
     './src/api/v1/routes/seasonsRouter.js',
@@ -107,7 +108,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set API Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/series', seriesRouter);
 app.use('/api/v1/seasons', seasonsRouter);

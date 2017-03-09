@@ -1,7 +1,8 @@
 'use strict'
 
 import express from 'express';
-import episodesController from '../controllers/episodesController'
+import episodesController from '../controllers/episodesController';
+import securityHelper from '../helpers/security';
 
 const router = express.Router();
 
@@ -15,6 +16,11 @@ const router = express.Router();
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: air_date
  *         description: Air date to episode.
  *         in: formData
@@ -46,7 +52,7 @@ const router = express.Router();
  *       500:
  *         description: Fail create episode
  */
-router.post('/create', episodesController.createEpisode);
+router.post('/create', securityHelper.isAuthenticated, episodesController.createEpisode);
 
 /**
  * @swagger
@@ -58,6 +64,11 @@ router.post('/create', episodesController.createEpisode);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: Air date to episode.
  *         in: path
@@ -89,7 +100,7 @@ router.post('/create', episodesController.createEpisode);
  *       500:
  *         description: Fail create episode
  */
-router.put('/update/:id', episodesController.updateEpisode);
+router.put('/update/:id', securityHelper.isAuthenticated, episodesController.updateEpisode);
 
 /**
  * @swagger
@@ -101,6 +112,11 @@ router.put('/update/:id', episodesController.updateEpisode);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: id to episode.
  *         in: formData
@@ -112,6 +128,6 @@ router.put('/update/:id', episodesController.updateEpisode);
  *       500:
  *         description: Fail delete episode
  */
-router.delete('/delete/:id', episodesController.deleteEpisode);
+router.delete('/delete/:id', securityHelper.isAuthenticated, episodesController.deleteEpisode);
 
 module.exports = router;

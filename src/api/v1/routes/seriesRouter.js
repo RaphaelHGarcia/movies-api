@@ -1,7 +1,8 @@
 'use strict'
 
 import express from 'express';
-import seriesController from '../controllers/seriesController'
+import seriesController from '../controllers/seriesController';
+import securityHelper from '../helpers/security';
 
 const router = express.Router();
 
@@ -29,7 +30,6 @@ const router = express.Router();
  *       500:
  *         description: Internal server Error
  */
-
 router.get('/', seriesController.getAllSeries);
 
 /**
@@ -65,6 +65,11 @@ router.get('/details/:id', seriesController.getSerieById);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: first_air_date
  *         description: First air date to serie.
  *         in: formData
@@ -96,7 +101,7 @@ router.get('/details/:id', seriesController.getSerieById);
  *       500:
  *         description: Fail create serie
  */
-router.post('/create', seriesController.createSerie);
+router.post('/create', securityHelper.isAuthenticated, seriesController.createSerie);
 
 /**
  * @swagger
@@ -108,6 +113,11 @@ router.post('/create', seriesController.createSerie);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: Id to serie.
  *         required: true
@@ -143,7 +153,7 @@ router.post('/create', seriesController.createSerie);
  *       500:
  *         description: Fail update serie
  */
-router.put('/update/:id', seriesController.updateSerie);
+router.put('/update/:id', securityHelper.isAuthenticated, seriesController.updateSerie);
 
 /**
  * @swagger
@@ -155,6 +165,11 @@ router.put('/update/:id', seriesController.updateSerie);
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: apiKey
+ *         description: Your API Key
+ *         in: query
+ *         required: true
+ *         type: string
  *       - name: id
  *         description: id to serie.
  *         in: formData
@@ -166,6 +181,6 @@ router.put('/update/:id', seriesController.updateSerie);
  *       500:
  *         description: Fail delete serie
  */
-router.delete('/delete/:id', seriesController.deleteSerie);
+router.delete('/delete/:id', securityHelper.isAuthenticated, seriesController.deleteSerie);
 
 module.exports = router;
