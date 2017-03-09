@@ -7,7 +7,7 @@
 
 ### Clone Repository
 ``` 
-https://github.com/RaphaelHGarcia/movies-api.git
+git clone https://github.com/RaphaelHGarcia/movies-api.git
 ```
 
 ### Configuration
