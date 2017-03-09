@@ -22,10 +22,10 @@ function getAllSeason(req, res, next) {
 function getSeasonById(req, res, next) {
   seasonsServices.getSeasonById(req.params.id)
          .then(season => {
-            if(!season) return res.status(404).jsonp({error: 'Resource not found', status: 404})
+            if(!season) return res.status(404).jsonp({ status_code: 404, error: 'Season not found'})
             return res.jsonp(season)
          })
-         .catch(error => { return res.status(500).jsonp(error) });
+         .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function createSeason(req, res, next) {
@@ -36,25 +36,23 @@ function createSeason(req, res, next) {
     overview: req.body.overview || null,
   }
 
+  if(!helpers.verifyDateIsValid(dataSeason.air_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Air date has the invalid format.'})
+
   seasonsServices.createSeason(dataSeason)
-                 .then(seasonAdd => { return res.jsonp({code:200, message: "Season successfully created."}) })
-                 .catch((err) => { return res.status(500).jsonp({code:500, message: err.message}) });
+                 .then(seasonAdd => res.jsonp({status_code: 200, message: "Season successfully created."}))
+                 .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function updateSeason(req, res, next) {
   seasonsServices.updateSeason(req.params.id, req.body)
-                 .then(seasonUpdate => {
-                    return res.jsonp({code:200, message: "Season successfully updated."})
-                  })
-                 .catch((err) => {
-                    return res.status(500).jsonp({ status_code: 500, message: err })
-                });
+                 .then(seasonUpdate => res.jsonp({code:200, message: "Season successfully updated."}))
+                 .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function deleteSeason(req, res, next) {
   seasonsServices.deleteSeason(req.params.id)
-                .then(season => { return res.jsonp({ message: 'Season successfully deleted'}) })
-                .catch(err => { return res.status(500).jsonp(err) })
+                .then(season => res.jsonp({status_code: 200, message: 'Season successfully deleted'}))
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 export default seasonsController;

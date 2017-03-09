@@ -5,7 +5,54 @@ import seriesController from '../controllers/seriesController'
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /api/v1/series:
+ *   get:
+ *     tags:
+ *       - TV Series
+ *     description: Endpoint list all series.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: page
+ *         description: Paginate Series list.
+ *         in: query
+ *         type: string
+ *       - name: search
+ *         description: search Serie to title.
+ *         in: query
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: list seasons
+ *       500:
+ *         description: Internal server Error
+ */
+
 router.get('/', seriesController.getAllSeries);
+
+/**
+ * @swagger
+ * /api/v1/series/details/{id}:
+ *   get:
+ *     tags:
+ *       - TV Series
+ *     description: Endpoint get serie by id.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Id to serie.
+ *         required: true
+ *         in: path
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: list seasons
+ *       500:
+ *         description: Internal server Error
+ */
 router.get('/details/:id', seriesController.getSerieById);
 
 /**
@@ -53,7 +100,7 @@ router.post('/create', seriesController.createSerie);
 
 /**
  * @swagger
- * /api/v1/series/update/{serie_id}:
+ * /api/v1/series/update/{id}:
  *   put:
  *     tags:
  *       - TV Series
@@ -100,7 +147,7 @@ router.put('/update/:id', seriesController.updateSerie);
 
 /**
  * @swagger
- * /api/v1/series/delete/{serie_id}:
+ * /api/v1/series/delete/{id}:
  *   delete:
  *     tags:
  *       - TV Series
@@ -109,7 +156,7 @@ router.put('/update/:id', seriesController.updateSerie);
  *       - application/json
  *     parameters:
  *       - name: id
- *         description: id to movie.
+ *         description: id to serie.
  *         in: formData
  *         required: true
  *         type: integer

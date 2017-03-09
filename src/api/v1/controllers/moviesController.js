@@ -11,28 +11,19 @@ const moviesController = {
   getMovieById
 }
 
-
 function getAllMovies(req, res, next) {
-  const page = req.query.page;
-  const search = req.query.search;
-
-  moviesServices.getAllMovies(page, search).then(getAllMovies => {
-    return res.jsonp(getAllMovies)
-  }).catch(err => {
-    return res.status(500).jsonp({
-      body: err,
-      status: 500
-    })
-  });
+  moviesServices.getAllMovies(req.query.page, req.query.search)
+                .then(getAllMovies => res.jsonp(getAllMovies))
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server error.'}));
 }
 
 function getMovieById(req,res, next) {
-  moviesServices.getMovieById(req.params.id).then(movie => {
-    if(!movie) return res.status(404).jsonp({error: 'Resource not found', status: 404})
-    return res.jsonp(movie)
-  }).catch(error => {
-    return res.status(500).jsonp(error)
-  })
+  moviesServices.getMovieById(req.params.id)
+                .then(movie => {
+                  if(!movie) return res.status(404).jsonp({status_code: 404, message: 'Resource not found'})
+                  return res.jsonp(movie)
+                })
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server error.'}));
 }
 
 function createMovie (req, res, next) {
@@ -49,11 +40,11 @@ function createMovie (req, res, next) {
     starred_by: req.body.starred_by || null,
   }
 
-    if(!helpers.verifyDateIsValid(dataMovie.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
+  if(!helpers.verifyDateIsValid(dataMovie.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
 
   moviesServices.createMovie(dataMovie)
-                .then(movieAdd => { return res.jsonp({status_code: 200, message: 'Movie successfully created.'})})
-                .catch((err) => {return res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'})})
+                .then(movieAdd =>  res.jsonp({status_code: 200, message: 'Movie successfully created.'}))
+                .catch((err) => res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'}));
 }
 
 function updateMovie(req, res, next) {

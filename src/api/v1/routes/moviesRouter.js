@@ -48,6 +48,10 @@ const router = express.Router();
  *         description: Paginate movie list.
  *         in: query
  *         type: string
+ *       - name: search
+ *         description: Search movie to title.
+ *         in: query
+ *         type: string
  *     responses:
  *       200:
  *         description: list movies

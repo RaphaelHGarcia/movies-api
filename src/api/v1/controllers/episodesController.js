@@ -10,7 +10,7 @@ const episodesController = {
 }
 
 function createEpisode(req, res, next) {
-  const data = {
+  const dataEpisode = {
    air_date: req.body.air_date || null,
    season_number: 0,
    id_season: req.body.id_season || null,
@@ -18,29 +18,24 @@ function createEpisode(req, res, next) {
    overview: req.body.overview || null,
    name: req.body.name || null,
  }
- 
- if(!data.id_season) return res.status(400).jsonp({error: 'You should pass id_season'})
- episodesServices.createEpisode(data).then(episodeCreated => {
-   return res.jsonp(episodeCreated)
- }).catch(error => {
-   return res.status(500).jsonp({
-     body: error,
-     status: 500
-   })
- })
+
+ if(!dataEpisode.id_season) return res.status(400).jsonp({status_code: 404, message: 'You should pass id_season'})
+ episodesServices.createEpisode(dataEpisode)
+                 .then(episodeCreated => res.jsonp({status_code: 200, message: 'Episode successfully created.'}))
+                 .catch(err => res.status(500).jsonp({status_code: 500, message: 'Failed to create a episode.'}));
 }
 
 function updateEpisode(req, res, next) {
-  if(req.body.season_number) return res.status(400).jsonp({error: 'You can not update season_number filed'})
+  if(req.body.season_number) return res.status(400).jsonp({status_code: 404, message: 'You can not update season_number filed'})
   episodesServices.updateEpisode(req.params.id, req.body)
-         .then(episodeUpdate => { return res.jsonp(episodeUpdate) })
-         .catch(err => { return res.status(500).jsonp(err) })
+         .then(episodeUpdate => res.jsonp({status_code: 200, message: 'Episode successfully updated.'}))
+         .catch(err => res.status(500).jsonp({status_code: 500, message: 'Failed to create a episode.'}));
 }
 
 function deleteEpisode(req, res, next) {
   episodesServices.deleteEpisode(req.params.id)
-         .then(episodeDelete => { return res.jsonp({ message: 'Episode successfully deleted' }) })
-         .catch(err => { return res.status(500).jsonp(err) })
+         .then(episodeDelete => res.jsonp({status_code: 200, message: 'Episode successfully deleted.'}))
+         .catch(err => res.status(500).jsonp({status_code: 500, message: 'Failed to create a episode.'}));
 }
 
 export default episodesController;

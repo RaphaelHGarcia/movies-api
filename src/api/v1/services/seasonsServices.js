@@ -18,10 +18,7 @@ function getAllSeason(page = 1) {
   return new Promisse((resolve, reject) => {
     Season.forge()
          .fetchPage({page: page, pageSize: 10, withRelated: ['episodes'], columns: ['*']})
-         .then(getAllSeason => {
-           console.log(getAllSeason);
-           resolve(getAllSeason) ;
-         })
+         .then(getAllSeason => resolve(getAllSeason))
          .catch((err) => { reject(err) });
   });
 }
@@ -46,8 +43,8 @@ function updateSeason(id, seasonData) {
   return new Promise((resolve, reject) => {
     Season.forge({ id })
           .save(seasonData, {patch: true})
-          .then((season) => { resolve(season) })
-          .catch(error => { reject(error) });
+          .then(season => resolve(season))
+          .catch(error => reject(error));
   });
 }
 
@@ -71,7 +68,6 @@ function getSeasonById(id) {
     Season.where({id})
          .fetch({withRelated: ['episodes'], columns: ['*']})
          .then(getSeasonById => {
-           if(!getSeasonById) reject({message: 'Season not found'});
            resolve(getSeasonById) ;
          })
          .catch((err) => { reject(err) });

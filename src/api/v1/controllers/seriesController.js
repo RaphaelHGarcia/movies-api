@@ -15,24 +15,20 @@ function getAllSeries(req, res, next){
   const page = req.query.page;
   const search = req.query.search;
 
-  seriesServices.getAllSeries(page, search).then(listOfTvSeries => {
-    return res.jsonp(listOfTvSeries)
-  }).catch(error => {
-    return res.status(500).jsonp({
-      body: error,
-      status: 500,
-      message: error.message
-    })
-  })
+  seriesServices.getAllSeries(page, search)
+                .then(listOfTvSeries => {
+                    return res.jsonp(listOfTvSeries)
+                })
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function getSerieById(req,res, next) {
-  seriesServices.getSerieById(req.params.id).then(serie => {
-    if(!serie) return res.status(404).jsonp({error: 'Resource not found', status: 404})
-    return res.jsonp(serie)
-  }).catch(error => {
-    return res.status(500).jsonp(error)
-  })
+  seriesServices.getSerieById(req.params.id)
+                .then(serie => {
+                  if(!serie) return res.status(404).jsonp({status_code: 404, message: 'Serie not found.'})
+                  return res.jsonp(serie)
+                })
+                .catch(error => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function createSerie (req, res, next) {
@@ -45,25 +41,28 @@ function createSerie (req, res, next) {
     popularity: req.body.popularity || null,
   }
 
+  if(!helpers.verifyDateIsValid(dataSerie.first_air_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'First air date has the invalid format.'})
+  if(!helpers.verifyDateIsValid(dataSerie.last_air_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Last air date has the invalid format.'})
+
   seriesServices.createSerie(dataSerie)
-                .then(serieAdd => { return res.jsonp(serieAdd) })
-                .catch(error => { return res.status(500).jsonp({ body: error, status: 500 }) });
+                .then(serieAdd => res.jsonp({status_code: 200, message: 'Serie successfully created.'}))
+                .catch(err => res.json({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function updateSerie(req, res, next) {
-  if(dataSerie.number_of_seasons) return res.status(400).jsonp({error: 'You can`t update number of season'});
-  if(dataSerie.number_of_episodes) return res.status(400).jsonp({error: 'You can`t update number of episodes'});
-  if(dataSerie.created_at) return res.status(400).jsonp({error: 'You can`t update created_at'});
+  if(req.body.number_of_seasons) return res.status(400).jsonp({error: 'You can`t update number of season'});
+  if(req.body.number_of_episodes) return res.status(400).jsonp({error: 'You can`t update number of episodes'});
+  if(req.body.created_at) return res.status(400).jsonp({error: 'You can`t update created_at'});
 
   seriesServices.updateSerie(req.params.id, req.body)
-                .then(serieUpdate => { return res.jsonp(serieUpdate) })
-                .catch(err => { return res.status(500).jsonp({ body: err, status: 500 }) });
+                .then(serieUpdate => res.jsonp({ status_code: 200, message: 'Serie successfully updated.' }))
+                .catch(err => res.json({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function deleteSerie(req, res, next) {
   seriesServices.deleteSerie(req.params.id)
-                .then(serieDelete => { return res.jsonp(serieDelete) })
-                .catch(err => { return res.status(500).jsonp({ body: err, status: 500 }) });
+                .then(serieDelete => res.jsonp({status_code: 200, message: 'Serie successfully deleted.'}))
+                .catch(err => res.json({status_code: 500, message: 'Internal server Error.'}));
 }
 
 export default seriesController;

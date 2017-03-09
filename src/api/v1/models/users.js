@@ -3,7 +3,10 @@
 import { bookshelf } from '../config/database';
 
 const User = bookshelf.Model.extend({
-  tableName: 'users'
+  tableName: 'users',
+  bcrypt: { field: 'password' },
+  hidden: ['password'],
+  hasTimestamps: true
 });
 
 

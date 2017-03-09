@@ -29,7 +29,9 @@ const swaggerOptions = {
   },
   apis: [
     './src/api/v1/routes/moviesRouter.js',
-    './src/api/v1/routes/seriesRouter.js'
+    './src/api/v1/routes/seriesRouter.js',
+    './src/api/v1/routes/seasonsRouter.js',
+    './src/api/v1/routes/episodesRouter.js'
   ],
   tags :[
       {
