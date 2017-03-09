@@ -12,6 +12,9 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import indexRouter  from './api/v1/routes/indexRouter';
 import usersRouter  from './api/v1/routes/usersRouter';
 import moviesRouter from './api/v1/routes/moviesRouter';
+import seriesRouter from './api/v1/routes/seriesRouter';
+import seasonsRouter from './api/v1/routes/seasonsRouter';
+import episodesRouter from './api/v1/routes/episodesRouter';
 
 debug('api:server');
 const app = express();
@@ -19,15 +22,25 @@ const port = normalizePort(process.env.PORT || '3000');
 const server = http.createServer(app);
 const swaggerOptions = {
   swaggerDefinition: {
-    basePath: 'http://localhost:3000',
     info: {
       title: 'API Movies and TV shows',
       version: '0.0.1',
     },
   },
   apis: [
-    './dist/api/v1/routes/moviesRouter.js'
+    './src/api/v1/routes/moviesRouter.js',
+    './src/api/v1/routes/seriesRouter.js'
   ],
+  tags :[
+      {
+         "name":"pet",
+         "description":"Everything about your Pets",
+         "externalDocs":{
+            "description":"Find out more",
+            "url":"http://swagger.io"
+         }
+      },
+  ]
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
@@ -94,7 +107,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/v1/movies', moviesRouter);
+app.use('/api/v1/series', seriesRouter);
+app.use('/api/v1/seasons', seasonsRouter);
+app.use('/api/v1/episodes', episodesRouter);
 
+
+// Set Json API Documentation
 app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
@@ -120,7 +138,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-server.listen(port,() => console.log('Server running'));
+server.listen(port,() => console.log(`Server running in http://localhost:${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
 

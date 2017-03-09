@@ -1,0 +1,124 @@
+'use strict'
+
+import express from 'express';
+import seriesController from '../controllers/seriesController'
+
+const router = express.Router();
+
+router.get('/', seriesController.getAllSeries);
+router.get('/details/:id', seriesController.getSerieById);
+
+/**
+ * @swagger
+ * /api/v1/series/create:
+ *   post:
+ *     tags:
+ *       - TV Series
+ *     description: Endpoint to create a serie
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: first_air_date
+ *         description: First air date to serie.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: last_air_date
+ *         description: Last air date to serie.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: original_language
+ *         description: Original language to serie.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: original_name
+ *         description: Original name to serie.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: overview
+ *         description: Overview to serie.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Create serie success
+ *       500:
+ *         description: Fail create serie
+ */
+router.post('/create', seriesController.createSerie);
+
+/**
+ * @swagger
+ * /api/v1/series/update/{serie_id}:
+ *   put:
+ *     tags:
+ *       - TV Series
+ *     description: Endpoint to create a serie
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Id to serie.
+ *         required: true
+ *         in: formData
+ *         type: integer
+ *       - name: first_air_date
+ *         description: First air date to serie.
+ *         in: formData
+ *         type: string
+ *       - name: last_air_date
+ *         description: Last air date to serie.
+ *         in: formData
+ *         type: string
+ *       - name: original_language
+ *         description: Original language to serie.
+ *         in: formData
+ *         type: string
+ *       - name: original_name
+ *         description: Original name to serie.
+ *         in: formData
+ *         type: string
+ *       - name: overview
+ *         description: Overview to serie.
+ *         in: formData
+ *         type: string
+ *       - name: popularity
+ *         description: Popularity to serie.
+ *         in: formData
+ *         type: number
+ *     responses:
+ *       200:
+ *         description: Update serie success
+ *       500:
+ *         description: Fail update serie
+ */
+router.put('/update/:id', seriesController.updateSerie);
+
+/**
+ * @swagger
+ * /api/v1/series/delete/{serie_id}:
+ *   delete:
+ *     tags:
+ *       - TV Series
+ *     description: Endpoint delete a serie
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: id to movie.
+ *         in: formData
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Delete serie success
+ *       500:
+ *         description: Fail delete serie
+ */
+router.delete('/delete/:id', seriesController.deleteSerie);
+
+module.exports = router;

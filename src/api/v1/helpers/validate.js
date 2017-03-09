@@ -1,11 +1,14 @@
 'use strict';
 
+import moment from 'moment';
+
 const helpers = {
-  isNullableRequest
+  verifyDateIsValid
 }
 
-function isNullableRequest(...args) {
-  console.log(args);
+function verifyDateIsValid(date, format) {
+  const dateConvert = moment(date, format);
+  return dateConvert.isValid();
 }
 
 export default helpers;

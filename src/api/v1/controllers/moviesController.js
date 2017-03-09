@@ -6,7 +6,33 @@ import helpers        from '../helpers/validate';
 const moviesController = {
   createMovie,
   updateMovie,
-  deleteMovie
+  deleteMovie,
+  getAllMovies,
+  getMovieById
+}
+
+
+function getAllMovies(req, res, next) {
+  const page = req.query.page;
+  const search = req.query.search;
+
+  moviesServices.getAllMovies(page, search).then(getAllMovies => {
+    return res.jsonp(getAllMovies)
+  }).catch(err => {
+    return res.status(500).jsonp({
+      body: err,
+      status: 500
+    })
+  });
+}
+
+function getMovieById(req,res, next) {
+  moviesServices.getMovieById(req.params.id).then(movie => {
+    if(!movie) return res.status(404).jsonp({error: 'Resource not found', status: 404})
+    return res.jsonp(movie)
+  }).catch(error => {
+    return res.status(500).jsonp(error)
+  })
 }
 
 function createMovie (req, res, next) {
@@ -23,26 +49,30 @@ function createMovie (req, res, next) {
     starred_by: req.body.starred_by || null,
   }
 
+    if(!helpers.verifyDateIsValid(dataMovie.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
+
   moviesServices.createMovie(dataMovie)
-                .then(movieAdd => { return res.jsonp(movieAdd)})
-                .catch((err) => {return res.status(500).jsonp(err)})
+                .then(movieAdd => { return res.jsonp({status_code: 200, message: 'Movie successfully created.'})})
+                .catch((err) => {return res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'})})
 }
 
 function updateMovie(req, res, next) {
   const id = req.params.id;
   const dataMovie = req.body;
 
+  if(req.body.release_date){
+    if(!helpers.verifyDateIsValid(req.body.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
+  }
+
   moviesServices.updateMovie(id, dataMovie)
-                .then(movieUpdate => { return res.jsonp(movieUpdate) })
-                .catch((err) => { return res.status(500).jsonp(err) })
+                .then(movieUpdate => { return res.jsonp({status_code: 200, message: 'Movie successfully Update.'}) })
+                .catch((err) => { return res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'}) })
 }
 
 function deleteMovie(req, res, next) {
-  const id = req.params.id;
-
-  moviesServices.deleteMovie(id)
-                .then(movieDelete => { res.jsonp(movieDelete) })
-                .catch((err) => { res.status(500).jsonp(err) })
+  moviesServices.deleteMovie(req.params.id)
+                .then(movieDelete => { res.jsonp({status_code: 200, message: 'Movie successfully Delete.'}) })
+                .catch((err) => { res.status(500).jsonp({status_code: 500, message: 'Failed to delete a movie.'}) })
 }
 
 export default moviesController;

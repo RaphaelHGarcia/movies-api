@@ -6,7 +6,34 @@ import Promisse from 'bluebird';
 const moviesServices = {
   createMovie,
   updateMovie,
-  deleteMovie
+  deleteMovie,
+  getAllMovies,
+  getMovieById
+}
+
+function getAllMovies(page = 1, term = null) {
+  return new Promise((resolve, reject) => {
+    Movie.forge()
+          .query((db) => {
+            if(term) db.where('movies.original_title', 'like', `%${term}%`);
+          })
+         .orderBy('popularity', 'desc')
+         .fetchPage({page: page, pageSize: 10})
+         .then(obj => { resolve(obj) })
+         .catch(err => { reject(err) });
+  });
+}
+
+function getMovieById(id) {
+  return new Promisse((resolve, reject) => {
+    Movie.where({id})
+         .fetch()
+         .then(getMovieById => {
+           if(!getMovieById) reject({message: 'Movie not found'});
+           resolve(getMovieById) ;
+         })
+         .catch((err) => { reject(err) });
+  });
 }
 
 function createMovie(movieData) {
