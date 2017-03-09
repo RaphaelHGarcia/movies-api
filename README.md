@@ -12,7 +12,7 @@ git clone https://github.com/RaphaelHGarcia/movies-api.git
 
 ### Configuration
 ----------------
-- Configure your mysql in `src\api\v1\config\database.js`.
+- Configure your mysql in `knexfile.js`.
 - Configure your redis in `src\api\v1\config\redis.js`.
 
 ### Installation
