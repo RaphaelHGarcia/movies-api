@@ -33,16 +33,6 @@ const swaggerOptions = {
     './src/api/v1/routes/seriesRouter.js',
     './src/api/v1/routes/seasonsRouter.js',
     './src/api/v1/routes/episodesRouter.js'
-  ],
-  tags :[
-      {
-         "name":"pet",
-         "description":"Everything about your Pets",
-         "externalDocs":{
-            "description":"Find out more",
-            "url":"http://swagger.io"
-         }
-      },
   ]
 };
 
