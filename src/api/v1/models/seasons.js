@@ -7,7 +7,7 @@ const Season = bookshelf.Model.extend({
   tableName: 'seasons',
   idAttribute: 'id',
   hasTimestamps: true,
-  episodes: function(){ return this.hasMany(Episode, 'id_season') }
+  episodes: function(){ return this.hasMany(Episode, 'season_number') }
 });
 
 export default Season;

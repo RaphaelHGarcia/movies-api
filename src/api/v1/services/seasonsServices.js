@@ -75,11 +75,9 @@ function getSeasonById(id) {
 }
 
 function incrementEpisodeToSeasonById(id){
-  console.log('id service -> ',id);
   return new Promisse((resolve, reject) => {
     getSeasonById(id)
         .then(season => {
-            console.log(season);
            season.save({episode_count: serie.toJSON().episode_count + 1 });
          });
   });

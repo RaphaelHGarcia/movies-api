@@ -13,12 +13,12 @@ const episodesServices = {
 
 function createEpisode(episodeData) {
   return new Promisse((resolve, reject) => {
-    seasonsServices.getSeasonById(episodeData.id_season)
+    seasonsServices.getSeasonById(episodeData.season_number)
                    .then(season => {
                      Episode.forge(episodeData)
                             .save()
                             .then(episodeAdd => {
-                               seasonsServices.incrementEpisodeToSeasonById(episodeAdd.get('id_season'));
+                               seasonsServices.incrementEpisodeToSeasonById(episodeAdd.get('season_number'));
                                seriesServices.incrementEpisodeToSerieById(season.get('id_serie'));
                                resolve(episodeAdd)
                              })

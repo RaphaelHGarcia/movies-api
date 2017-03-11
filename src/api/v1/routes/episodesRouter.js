@@ -1,8 +1,13 @@
 'use strict'
 
-import express from 'express';
+import express            from 'express';
 import episodesController from '../controllers/episodesController';
-import securityHelper from '../helpers/security';
+import securityHelper     from '../helpers/security';
+import validation         from 'express-validation';
+import {
+        createEpisodeValidation,
+        updateEpisodeValidation
+} from '../validations/episodesValidations';
 
 const router = express.Router();
 
@@ -52,7 +57,7 @@ const router = express.Router();
  *       500:
  *         description: Fail create episode
  */
-router.post('/create', securityHelper.isAuthenticated, episodesController.createEpisode);
+router.post('/create', validation(createEpisodeValidation), securityHelper.isAuthenticated, episodesController.createEpisode);
 
 /**
  * @swagger
@@ -100,7 +105,7 @@ router.post('/create', securityHelper.isAuthenticated, episodesController.create
  *       500:
  *         description: Fail create episode
  */
-router.put('/update/:id', securityHelper.isAuthenticated, episodesController.updateEpisode);
+router.put('/update/:id', validation(updateEpisodeValidation), securityHelper.isAuthenticated, episodesController.updateEpisode);
 
 /**
  * @swagger
