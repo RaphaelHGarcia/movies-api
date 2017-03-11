@@ -1,8 +1,15 @@
 'use strict'
-import express from 'express';
-import userController from '../controllers/userController'
+import express        from 'express';
+import userController from '../controllers/userController';
+import validation from 'express-validation';
+import {
+        createUserValidation,
+        authenticateUserValidation
+} from '../validations/usersValidations';
+
 
 const router = express.Router();
+
 
 /**
  * @swagger
@@ -35,7 +42,7 @@ const router = express.Router();
  *       500:
  *         description: Fail create user
  */
-router.post('/create', userController.createUser);
+router.post('/create', validation(createUserValidation), userController.createUser);
 
 /**
  * @swagger
@@ -63,7 +70,6 @@ router.post('/create', userController.createUser);
  *       500:
  *         description: Fail get JWT
  */
-router.post('/authenticate', userController.authenticate);
-
+router.post('/authenticate', validation(authenticateUserValidation), userController.authenticate);
 
 module.exports = router;

@@ -26,8 +26,8 @@ function authenticate(data){
         .fetch()
         .then(user => {
           bcrypt.compare(data.password, user.get('password'), (err, isMatch) => {
-            if(err) return reject({error: 'Error'});
-            if(!isMatch) return reject({error: 'Senha errada'});
+            if(!isMatch) return resolve({error: 'Invalid email or password'});
+            if(err) return reject({error: err});
             securityHelper.createJWTForUser(user.toJSON()).then(jwt => resolve(jwt));
           });
         })

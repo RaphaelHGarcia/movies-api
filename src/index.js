@@ -104,7 +104,6 @@ app.use('/api/v1/series', seriesRouter);
 app.use('/api/v1/seasons', seasonsRouter);
 app.use('/api/v1/episodes', episodesRouter);
 
-
 // Set Json API Documentation
 app.get('/api-docs.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
@@ -112,20 +111,26 @@ app.get('/api-docs.json', (req, res) => {
 });
 
 // Errors handling requests API
+app.use((err, req, res, next) => {
+  if(err.status == 400) {
+    return res.status(400).jsonp({
+      status_code: 400,
+      message: err.statusText,
+      errors: err.errors
+    });
+  }
+});
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
   res.status(404).jsonp({
-    status: 404,
+    status_code: 404,
     message: 'URL not found!'
   })
 });
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  const status = err.status || 500;
-
-  res.status(status).jsonp({
-    status: status,
+  res.status(500).jsonp({
+    status_code: 500,
     message: 'Internal server error'
   });
 });
