@@ -1,8 +1,13 @@
 'use strict'
 
-import express from 'express';
+import express          from 'express';
 import seriesController from '../controllers/seriesController';
-import securityHelper from '../helpers/security';
+import securityHelper   from '../helpers/security';
+import validation       from 'express-validation';
+import {
+        createSerieValidation,
+        updateSerieValidation
+} from '../validations/seriesValidations';
 
 const router = express.Router();
 
@@ -101,7 +106,7 @@ router.get('/details/:id', seriesController.getSerieById);
  *       500:
  *         description: Fail create serie
  */
-router.post('/create', securityHelper.isAuthenticated, seriesController.createSerie);
+router.post('/create', validation(createSerieValidation), securityHelper.isAuthenticated, seriesController.createSerie);
 
 /**
  * @swagger
@@ -153,7 +158,7 @@ router.post('/create', securityHelper.isAuthenticated, seriesController.createSe
  *       500:
  *         description: Fail update serie
  */
-router.put('/update/:id', securityHelper.isAuthenticated, seriesController.updateSerie);
+router.put('/update/:id', validation(updateSerieValidation), securityHelper.isAuthenticated, seriesController.updateSerie);
 
 /**
  * @swagger

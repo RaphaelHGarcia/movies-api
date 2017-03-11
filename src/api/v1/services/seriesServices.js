@@ -1,6 +1,6 @@
 'use strict';
 
-import Serie from '../models/series';
+import Serie    from '../models/series';
 import Promisse from 'bluebird';
 
 const seriesServices = {

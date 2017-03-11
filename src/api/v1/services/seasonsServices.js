@@ -1,9 +1,9 @@
 
 'use strict';
 
-import Season   from '../models/seasons';
+import Season          from '../models/seasons';
 import seriesServices  from '../services/seriesServices';
-import Promisse from 'bluebird';
+import Promisse        from 'bluebird';
 
 const seasonsServices = {
   createSeason,
@@ -68,7 +68,7 @@ function getSeasonById(id) {
     Season.where({id})
          .fetch({withRelated: ['episodes'], columns: ['*']})
          .then(getSeasonById => {
-           resolve(getSeasonById) ;
+           resolve(getSeasonById);
          })
          .catch((err) => { reject(err) });
   });

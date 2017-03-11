@@ -1,6 +1,6 @@
 'use strict';
 
-import Movie from '../models/movies';
+import Movie    from '../models/movies';
 import Promisse from 'bluebird';
 
 const moviesServices = {

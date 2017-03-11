@@ -34,7 +34,7 @@ function getSeasonById(req, res, next) {
   const fetchNewData = () => {
     seasonsServices.getSeasonById(req.params.id)
          .then(season => {
-            if(!season) return res.status(404).jsonp({ status_code: 404, error: 'Season not found'})
+            if(!season) return res.status(404).jsonp({ status_code: 404, error: 'Season not found'});
             redisService.client.setex(keyRedis, redisService.time, JSON.stringify(season));
             return res.jsonp(season);
          })
@@ -69,13 +69,14 @@ function updateSeason(req, res, next) {
   seasonsServices.updateSeason(req.params.id, req.body)
                  .then(seasonUpdate => {
                    redisService.client.remove('seasons:*');
-                   res.jsonp({code:200, message: "Season successfully updated."});
+                   res.jsonp({status_code:200, message: "Season successfully updated."});
                   })
                  .catch(err => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
 }
 
 function deleteSeason(req, res, next) {
   if(!parseInt(req.params.id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to season.'});
+
   seasonsServices.deleteSeason(req.params.id)
                 .then(season => {
                   redisService.client.remove('seasons:*');
