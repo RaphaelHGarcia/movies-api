@@ -1,9 +1,9 @@
 'use strict'
 
-import express from 'express';
+import express          from 'express';
 import moviesController from '../controllers/moviesController';
-import securityHelper from '../helpers/security';
-import validation from 'express-validation';
+import securityHelper   from '../helpers/security';
+import validation       from 'express-validation';
 import {
         createMovieValidation,
         updateMovieValidation

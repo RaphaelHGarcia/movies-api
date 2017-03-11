@@ -1,8 +1,13 @@
 'use strict'
 
-import express from 'express';
+import express           from 'express';
 import seasonsController from '../controllers/seasonsController'
-import securityHelper from '../helpers/security';
+import securityHelper    from '../helpers/security';
+import validation        from 'express-validation';
+import {
+        createSeasonValidation,
+        updateSeasonValidation
+} from '../validations/seasonsValidations';
 
 const router = express.Router();
 
@@ -92,7 +97,7 @@ router.get('/details/:id', seasonsController.getSeasonById);
  *       500:
  *         description: Fail create season
  */
-router.post('/create', securityHelper.isAuthenticated, seasonsController.createSeason);
+router.post('/create', validation(createSeasonValidation), securityHelper.isAuthenticated, seasonsController.createSeason);
 
 /**
  * @swagger
@@ -136,7 +141,7 @@ router.post('/create', securityHelper.isAuthenticated, seasonsController.createS
  *       500:
  *         description: Fail create season
  */
-router.put('/update/:id', securityHelper.isAuthenticated, seasonsController.updateSeason);
+router.put('/update/:id', validation(updateSeasonValidation), securityHelper.isAuthenticated, seasonsController.updateSeason);
 
 /**
  * @swagger
