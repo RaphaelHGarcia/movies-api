@@ -3,6 +3,11 @@
 import express from 'express';
 import moviesController from '../controllers/moviesController';
 import securityHelper from '../helpers/security';
+import validation from 'express-validation';
+import {
+        createMovieValidation,
+        updateMovieValidation
+} from '../validations/moviesValidations';
 
 const router = express.Router();
 
@@ -163,7 +168,7 @@ router.get('/details/:id', moviesController.getMovieById);
  *       500:
  *         description: Fail create movie
  */
-router.post('/create', securityHelper.isAuthenticated, moviesController.createMovie);
+router.post('/create', validation(createMovieValidation) ,securityHelper.isAuthenticated, moviesController.createMovie);
 
 /**
  * @swagger
@@ -231,7 +236,7 @@ router.post('/create', securityHelper.isAuthenticated, moviesController.createMo
  *       500:
  *         description: Fail update movie
  */
-router.put('/update/:id', securityHelper.isAuthenticated, moviesController.updateMovie);
+router.put('/update/:id', validation(updateMovieValidation), securityHelper.isAuthenticated, moviesController.updateMovie);
 
 /**
  * @swagger

@@ -24,8 +24,8 @@ function getAllMovies(req, res, next) {
   }
 
   redisService.client.get(keyRedis, (err, result) => {
-    if(err || !result) return fetchNewData()
-    return res.jsonp(JSON.parse(result))
+    if(err || !result) return fetchNewData();
+    return res.jsonp(JSON.parse(result));
   });
 }
 
@@ -34,7 +34,7 @@ function getMovieById(req,res, next) {
   const fetchNewData = () => {
     moviesServices.getMovieById(req.params.id)
     .then(movie => {
-      if(!movie) return res.status(404).jsonp({status_code: 404, message: 'Resource not found'})
+      if(!movie) return res.status(404).jsonp({status_code: 404, message: 'Resource not found'});
       redisService.client.setex(keyRedis, redisService.time, JSON.stringify(movie));
       return res.jsonp(movie);
     })
@@ -42,8 +42,8 @@ function getMovieById(req,res, next) {
   }
 
   redisService.client.get(keyRedis, (err, result) => {
-    if(err || !result) return fetchNewData()
-    return res.jsonp(JSON.parse(result))
+    if(err || !result) return fetchNewData();
+    return res.jsonp(JSON.parse(result));
   });
 }
 
@@ -61,39 +61,36 @@ function createMovie (req, res, next) {
     starred_by: req.body.starred_by || null,
   }
 
-  if(!helpers.verifyDateIsValid(dataMovie.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
-
   moviesServices.createMovie(dataMovie)
                 .then(movieAdd =>  {
                   redisService.client.remove('movies:*');
-                  res.jsonp({status_code: 200, message: 'Movie successfully created.'})
+                  res.jsonp({status_code: 200, message: 'Movie successfully created.'});
                 })
-                .catch((err) => res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'}));
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'}));
 }
 
 function updateMovie(req, res, next) {
   const id = req.params.id;
   const dataMovie = req.body;
 
-  if(req.body.release_date){
-    if(!helpers.verifyDateIsValid(req.body.release_date, 'YYYY-MM-DD')) return res.status(400).jsonp({status_code: 400, message: 'Release date has the invalid format.'})
-  }
+  if(!parseInt(id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to movie.'});
 
   moviesServices.updateMovie(id, dataMovie)
                 .then(movieUpdate => {
                   redisService.client.remove('movies:*');
-                  return res.jsonp({status_code: 200, message: 'Movie successfully Update.'})
+                  return res.jsonp({status_code: 200, message: 'Movie successfully Update.'});
                 })
-                .catch((err) => { return res.status(500).jsonp({status_code: 500, message: 'Failed to create a movie.'}) })
+                .catch(err => res.status(500).jsonp({status_code: 500, message: 'Failed to update a movie.'}));
 }
 
 function deleteMovie(req, res, next) {
+  if(!parseInt(id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to movie.'});
   moviesServices.deleteMovie(req.params.id)
                 .then(movieDelete => {
                   redisService.client.remove('movies:*');
-                  res.jsonp({status_code: 200, message: 'Movie successfully Delete.'})
+                  res.jsonp({status_code: 200, message: 'Movie successfully Delete.'});
                 })
-                .catch((err) => { res.status(500).jsonp({status_code: 500, message: 'Failed to delete a movie.'}) })
+                .catch((err) => { res.status(500).jsonp({status_code: 500, message: 'Failed to delete a movie.'}) });
 }
 
 export default moviesController;
