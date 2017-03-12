@@ -100,6 +100,11 @@ router.get('/details/:id', seriesController.getSerieById);
  *         in: formData
  *         required: true
  *         type: string
+ *       - name: popularity
+ *         description: Popularity to serie.
+ *         in: formData
+ *         required: true
+ *         type: number
  *     responses:
  *       200:
  *         description: Create serie success
