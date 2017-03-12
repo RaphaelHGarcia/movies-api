@@ -250,7 +250,7 @@ router.put('/update/:id', validation(updateMovieValidation), securityHelper.isAu
  *     parameters:
  *       - name: id
  *         description: id to movie.
- *         in: path
+ *         in: formData
  *         required: true
  *         type: integer
  *       - name: apiKey
