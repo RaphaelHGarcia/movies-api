@@ -36,6 +36,11 @@ const router = express.Router();
  *         in: formData
  *         required: true
  *         type: integer
+ *       - name: season_number
+ *         description: Season number to episode.
+ *         in: formData
+ *         required: true
+ *         type: integer
  *       - name: episode_number
  *         description: Id number to episode.
  *         in: formData
