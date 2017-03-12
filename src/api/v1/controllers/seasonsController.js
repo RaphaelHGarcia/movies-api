@@ -23,10 +23,12 @@ function getAllSeason(req, res, next) {
          .catch(error => res.status(500).jsonp({status_code: 500, message: 'Internal server Error.'}));
   }
 
-  redisService.client.get(keyRedis, (err, result) => {
-    if(err || !result) return fetchNewData();
-    return res.jsonp(JSON.parse(result));
-  });
+  return fetchNewData();
+
+  // redisService.client.get(keyRedis, (err, result) => {
+  //   if(err || !result) return fetchNewData();
+  //   return res.jsonp(JSON.parse(result));
+  // });
 }
 
 function getSeasonById(req, res, next) {

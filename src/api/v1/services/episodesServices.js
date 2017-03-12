@@ -1,9 +1,9 @@
 'use strict';
 
-import Episode   from '../models/episodes';
+import Episode          from '../models/episodes';
 import seasonsServices  from '../services/seasonsServices';
-import seriesServices  from '../services/seriesServices';
-import Promisse from 'bluebird';
+import seriesServices   from '../services/seriesServices';
+import Promisse         from 'bluebird';
 
 const episodesServices = {
   createEpisode,

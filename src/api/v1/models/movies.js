@@ -6,7 +6,7 @@ import moment        from 'moment';
 const Movie = bookshelf.Model.extend({
   tableName: 'movies',
   idAttribute: 'id',
-  hasTimestamps: true
+  hasTimestamps: true,
 });
 
 export default Movie;
