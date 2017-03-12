@@ -37,9 +37,10 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      database: 'movies_api',
-      user:     'root',
-      password: ''
+      host: 'us-cdbr-iron-east-03.cleardb.net',
+      database: 'heroku_e552c7a1909002a',
+      user:     'b05ac2a7331050',
+      password: '28affa95'
     },
     pool: {
       min: 2,

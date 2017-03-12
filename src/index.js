@@ -18,7 +18,7 @@ import episodesRouter from './api/v1/routes/episodesRouter';
 
 debug('api:server');
 const app = express();
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort('3000');
 const server = http.createServer(app);
 const swaggerOptions = {
   swaggerDefinition: {
