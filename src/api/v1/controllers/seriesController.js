@@ -33,7 +33,7 @@ function getAllSeries(req, res, next){
 }
 
 function getSerieById(req,res, next) {
-  const keyRedis = 'tvseries:id='+req.params.id;
+  const keyRedis = 'series:id='+req.params.id;
   const fetchNewData = () => {
     seriesServices.getSerieById(req.params.id)
                 .then(serie => {
@@ -76,7 +76,7 @@ function updateSerie(req, res, next) {
 
   seriesServices.updateSerie(req.params.id, req.body)
                 .then(serieUpdate => {
-                  redisService.client.remove('series:*');
+                  redisService.client.remove('series:id='+req.params.id);
                   res.jsonp({ status_code: 200, message: 'Serie successfully updated.' });
                 })
                 .catch(err => res.json({status_code: 500, message: 'Internal server Error.'}));
@@ -86,7 +86,7 @@ function deleteSerie(req, res, next) {
   if(!parseInt(req.params.id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to serie.'});
   seriesServices.deleteSerie(req.params.id)
                 .then(serieDelete => {
-                  redisService.client.remove('series:*');
+                  redisService.client.remove('series:id='+req.params.id);
                   res.jsonp({status_code: 200, message: 'Serie successfully deleted.'});
                 })
                 .catch(err => res.json({status_code: 500, message: 'Internal server Error.'}));
