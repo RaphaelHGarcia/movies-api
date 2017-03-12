@@ -187,7 +187,7 @@ router.post('/create', validation(createMovieValidation) ,securityHelper.isAuthe
  *         type: string
  *       - name: id
  *         description: id to movie.
- *         in: formData
+ *         in: path
  *         required: true
  *         type: integer
  *       - name: original_language
@@ -250,7 +250,7 @@ router.put('/update/:id', validation(updateMovieValidation), securityHelper.isAu
  *     parameters:
  *       - name: id
  *         description: id to movie.
- *         in: formData
+ *         in: path
  *         required: true
  *         type: integer
  *       - name: apiKey

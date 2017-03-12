@@ -126,7 +126,7 @@ router.post('/create', validation(createSerieValidation), securityHelper.isAuthe
  *       - name: id
  *         description: Id to serie.
  *         required: true
- *         in: formData
+ *         in: path
  *         type: integer
  *       - name: first_air_date
  *         description: First air date to serie.
@@ -177,7 +177,7 @@ router.put('/update/:id', validation(updateSerieValidation), securityHelper.isAu
  *         type: string
  *       - name: id
  *         description: id to serie.
- *         in: formData
+ *         in: path
  *         required: true
  *         type: integer
  *     responses:

@@ -117,7 +117,7 @@ router.post('/create', validation(createSeasonValidation), securityHelper.isAuth
  *       - name: id
  *         description: Id to season.
  *         required: true
- *         in: formData
+ *         in: path
  *         type: integer
  *       - name: air_date
  *         description: Air date to serie.

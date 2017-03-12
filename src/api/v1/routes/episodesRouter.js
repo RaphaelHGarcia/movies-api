@@ -124,7 +124,7 @@ router.put('/update/:id', validation(updateEpisodeValidation), securityHelper.is
  *         type: string
  *       - name: id
  *         description: id to episode.
- *         in: formData
+ *         in: path
  *         required: true
  *         type: integer
  *     responses:
