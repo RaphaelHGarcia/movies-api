@@ -77,6 +77,7 @@ function updateMovie(req, res, next) {
 
   moviesServices.updateMovie(id, dataMovie)
                 .then(movieUpdate => {
+                  if(!movieUpdate) return res.status(404).jsonp({status_code: 404, message: 'Resource not found'});
                   redisService.client.remove('movies:*');
                   return res.jsonp({status_code: 200, message: 'Movie successfully Update.'});
                 })
@@ -87,6 +88,7 @@ function deleteMovie(req, res, next) {
   if(!parseInt(req.params.id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to movie.'});
   moviesServices.deleteMovie(req.params.id)
                 .then(movieDelete => {
+                  if(!movieDelete) return res.status(404).jsonp({status_code: 404, message: 'Resource not found'});
                   redisService.client.remove('movies:*');
                   res.jsonp({status_code: 200, message: 'Movie successfully Delete.'});
                 })

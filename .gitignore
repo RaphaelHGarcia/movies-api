@@ -1,4 +1,2 @@
 dist/
 node_modules/
-src/api/v1/config/redis.js
-knexfile.js

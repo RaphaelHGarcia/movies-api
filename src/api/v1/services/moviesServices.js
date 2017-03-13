@@ -44,7 +44,7 @@ function createMovie(movieData) {
 
 function updateMovie(id, movieData) {
   return new Promisse((resolve, reject) => {
-    Movie.forge({ id })
+    Movie.where({ id })
          .save(movieData, {patch: true})
          .then(movie => resolve(movie))
          .catch(error => reject(error));
@@ -52,7 +52,6 @@ function updateMovie(id, movieData) {
 }
 
 function deleteMovie(id) {
-  console.log(id);
   return new Promise((resolve, reject) => {
     Movie.where({ id })
          .destroy()
