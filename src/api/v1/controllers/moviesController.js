@@ -2,7 +2,7 @@
 
 import moviesServices from '../services/moviesServices';
 import helpers        from '../helpers/validate';
-import redisService  from '../config/redis';
+import redisService   from '../config/redis';
 
 const moviesController = {
   createMovie,
@@ -84,7 +84,7 @@ function updateMovie(req, res, next) {
 }
 
 function deleteMovie(req, res, next) {
-  if(!parseInt(id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to movie.'});
+  if(!parseInt(req.params.id)) return res.status(400).jsonp({status_code: 400, message: 'Invalid id to movie.'});
   moviesServices.deleteMovie(req.params.id)
                 .then(movieDelete => {
                   redisService.client.remove('movies:*');

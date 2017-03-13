@@ -52,6 +52,7 @@ function updateMovie(id, movieData) {
 }
 
 function deleteMovie(id) {
+  console.log(id);
   return new Promise((resolve, reject) => {
     Movie.where({ id })
          .destroy()

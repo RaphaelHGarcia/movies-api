@@ -233,6 +233,8 @@ router.post('/create', validation(createMovieValidation) ,securityHelper.isAuthe
  *     responses:
  *       200:
  *         description: Update movie success
+ *       400:
+ *         description: Bad request
  *       500:
  *         description: Fail update movie
  */
@@ -248,19 +250,21 @@ router.put('/update/:id', validation(updateMovieValidation), securityHelper.isAu
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: id
- *         description: id to movie.
- *         in: formData
- *         required: true
- *         type: integer
  *       - name: apiKey
  *         description: Your API Key
  *         in: query
  *         required: true
  *         type: string
+ *       - name: id
+ *         description: id to movie.
+ *         in: path
+ *         required: true
+ *         type: integer
  *     responses:
  *       200:
  *         description: Delete movie success
+ *       400:
+ *         description: Bad request
  *       500:
  *         description: Fail delete movie
  */
