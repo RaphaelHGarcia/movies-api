@@ -6,8 +6,8 @@ const Joi = BaseJoi.extend(Extension);
 
 export const createSerieValidation = {
   body: {
-    first_air_date: Joi.date().format('DD/MM/YYYY').required(),
-    last_air_date: Joi.date().format('DD/MM/YYYY').required(),
+    first_air_date: Joi.date().format('YYYY-MM-DD').required(),
+    last_air_date: Joi.date().format('YYYY-MM-DD').required(),
     original_language: Joi.string().required(),
     original_name: Joi.string().required(),
     overview: Joi.string().required(),
@@ -17,8 +17,8 @@ export const createSerieValidation = {
 
 export const updateSerieValidation = {
   body: {
-    first_air_date: Joi.date().format('DD/MM/YYYY'),
-    last_air_date: Joi.date().format('DD/MM/YYYY'),
+    first_air_date: Joi.date().format('YYYY-MM-DD'),
+    last_air_date: Joi.date().format('YYYY-MM-DD'),
     original_language: Joi.string(),
     original_name: Joi.string(),
     overview: Joi.string(),

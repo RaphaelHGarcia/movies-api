@@ -6,7 +6,7 @@ const Joi = BaseJoi.extend(Extension);
 
 export const createEpisodeValidation = {
   body: {
-     air_date: Joi.date().format('DD/MM/YYYY').required(),
+     air_date: Joi.date().format('YYYY-MM-DD').required(),
      id_season: Joi.number().integer().required().positive(),
      season_number: Joi.number().integer().required().positive(),
      episode_number:Joi.number().integer().required().positive().min(1),
@@ -17,7 +17,7 @@ export const createEpisodeValidation = {
 
 export const updateEpisodeValidation = {
   body: {
-     air_date: Joi.date().format('DD/MM/YYYY'),
+     air_date: Joi.date().format('YYYY-MM-DD'),
      id_season: Joi.number().integer().positive(),
      season_number: Joi.number().integer().positive(),
      episode_number:Joi.number().integer().positive().min(1),
